@@ -1,0 +1,14 @@
+//
+// Created by thomas on 12/9/20.
+//
+
+#ifndef MULTICONTOUR_FIRELINEPROGRESSION_H
+#define MULTICONTOUR_FIRELINEPROGRESSION_H
+
+
+class FireLineProgression {
+
+};
+
+
+#endif //MULTICONTOUR_FIRELINEPROGRESSION_H
