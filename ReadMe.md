@@ -15,5 +15,7 @@ To run an analysis:
 
 `MultiContour <<Config-File-Name>>`
 
+The sample config file is setup for the included sample imagery. Note, depending on your install path, you may need to update the paths in the config.
+
 The _Background-Docs_ folder contains imagery examples and short documents that define the processing approach. 
 
