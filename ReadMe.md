@@ -19,3 +19,4 @@ The sample config file is setup for the included sample imagery. Note, depending
 
 The _Background-Docs_ folder contains imagery examples and short documents that define the processing approach. 
 
+The _Utilities_ folder contains simple command line utilities and a makefile. The utilities were built to do simple batch image scaling and alignment. One issue that comes up is that the thermal and RGB cameras are not always in perfect allignment. The simple programs RGBClipAlign and ThermalClipAlign are used to bring the imagery into allignment. The thermalImageScale program scales the raw thermal imagery to be the same size as the RGB imagery. Allows for simpler allignment checks and processing later.
