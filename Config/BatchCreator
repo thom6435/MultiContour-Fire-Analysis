@@ -1,0 +1,4 @@
+ls $1 | grep rgb | grep -v avi >listA
+ls $1 | grep thermal | grep -v avi >listB
+cat BatchHeader > Config-$1.MCA
+paste listA listB >> Config-$1.MCA

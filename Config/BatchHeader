@@ -1,0 +1,29 @@
+# MultiContour Analysis Configuration for Fire Line Analysis
+# Analysis
+ANALYSIS_NAME: 4_18_2017-Cam3
+# Results from the analysis are stored in these files:
+#     <Analysis_Name>-Analysis.txt
+#     <Analysis_Name>-Contour.jpg
+#     <Analysis_Name>-Grayscale.jpg
+#     <Analysis_Name>-Progression-Map.jpg
+# Field of View (FOV) horizontal coverage width of the imagery (meters)
+FOV: 6.3
+# North: provide simple orientation of the imagery and fire progression with
+# respect to compass points. valid settings: TOP, BOTTOM, LEFT, & RIGHT.  Specifying
+# top indicates that the top of image points to north. Default is TOP.
+NORTH: TOP
+# Time: elapsed time between photos in seconds
+ELAPSED_TIME: 1.0
+# Normal_Interval: number of pixels between generated normals from
+# the inner fire contour. In other words, a stepping factor for the
+# analysis.
+NORMAL_INTERVAL: 5
+# Set Averaging: Number of consecutive images that averaged together to
+# provide a single imagery data point. (MAXIMUM 10)
+SET_SIZE: 5
+# Output Directory
+OUTPUT_DIRECTORY: /home/thomas/Desktop/Fire-Imagery/Analysis/4_18_2017Cam3
+# input Directory
+INPUT_DIRECTORY: /home/thomas/Desktop/Fire-Imagery/Imagery/Florida_TTRS_Data_Processed/4_18_2017Cam3
+#The input file series must be the last element in the config file
+INPUT_FILE_SERIES:
