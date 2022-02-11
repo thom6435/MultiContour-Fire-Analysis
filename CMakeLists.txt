@@ -21,4 +21,4 @@ add_executable(MultiContour
         normal.cpp
         normal.h thermalArea.cpp thermalArea.h)
 
-target_link_libraries(MultiContour opencv_highgui opencv_core opencv_xphoto opencv_imgcodecs opencv_imgproc)
+target_link_libraries(MultiContour opencv_highgui opencv_core opencv_imgcodecs opencv_imgproc)
