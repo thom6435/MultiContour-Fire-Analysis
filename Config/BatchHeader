@@ -8,6 +8,9 @@ ANALYSIS_NAME: 4_18_2017-Cam3
 #     <Analysis_Name>-Progression-Map.jpg
 # Field of View (FOV) horizontal coverage width of the imagery (meters)
 FOV: 6.3
+# IMAGERY_WIDTH & IMAGERY HEIGHT allow the user to impose a standardized imagery size-- if desired
+IMAGERY_WIDTH: 760
+IMAGERY_HEIGHT: 1024
 # North: provide simple orientation of the imagery and fire progression with
 # respect to compass points. valid settings: TOP, BOTTOM, LEFT, & RIGHT.  Specifying
 # top indicates that the top of image points to north. Default is TOP.

@@ -9,19 +9,21 @@
 class MCA_Config
 {
     private:
-        char analysisName[FILE_PATH_SIZE];
-        char inputDirectory[FILE_PATH_SIZE];
-        char outputDirectory[FILE_PATH_SIZE];
-        int  fileCount;                                  // total number of images in the series
+        char  analysisName[FILE_PATH_SIZE];
+        char  inputDirectory[FILE_PATH_SIZE];
+        char  outputDirectory[FILE_PATH_SIZE];
+        int   imageryWidth;                              // targeted scaled pixel width of thermal and rgb imagery
+        int   imageryHeight;                             // targeted scaled pixel height of thermal and rgb imagery
+        int   fileCount;                                 // total number of images in the series
         float XScale;                                    // coverage width of imagery in meters
         float YScale;                                    // coverage height of imagery in meters
         float FOV;                                       // horizontal field of view in meters
         float RadiometerFOV;                             // Radiometer pixel diameter in meters
         float elapsedTime;                               // elapsed time between photos
-        int fireLine_MinContourPoints;                   // Min. contour point count required for a fire line width analysis
+        int   fireLine_MinContourPoints;                   // Min. contour point count required for a fire line width analysis
         float fireLine_MinContourArea;                   // Min. contour area required for a fire line width analysis
         float setSize;                                   // # of images averaged together to provide single datapoint
-        int normalInterval;                              // # of adjacent points used on a contour level to fit a line and its normal vector
+        int   normalInterval;                              // # of adjacent points used on a contour level to fit a line and its normal vector
         char rgb_File[MAX_IMAGE_SERIES][FILE_PATH_SIZE];
         char ir_file[MAX_IMAGE_SERIES][FILE_PATH_SIZE];
         char configFileName[FILE_PATH_SIZE];
@@ -44,6 +46,8 @@ class MCA_Config
         float getElapsedTime();
         float getFOV();
         float getRadiometerFOV();
+        int getImageryWidth();
+        int getImageryHeight();
         //float getXScale();
         //float getYScale();
         void printConfig();

@@ -151,6 +151,30 @@ int MCA_Config::Read_MCA_Config(char *configFile)
 	            this->setSize = (int) atof(buffer);
 	        }
 
+            if (strcmp(identifier,"IMAGERY_WIDTH") == 0) {
+                char buffer[16];
+                k=0;
+                for (j=i;j<strlen(inputStr); j++){
+                    if (inputStr[j] > 32)
+                        buffer[k++]= inputStr[j];
+                }
+                buffer[k]=0;
+
+                this->imageryWidth = (int) atof(buffer);
+            }
+
+            if (strcmp(identifier,"IMAGERY_HEIGHT") == 0) {
+                char buffer[16];
+                k=0;
+                for (j=i;j<strlen(inputStr); j++){
+                    if (inputStr[j] > 32)
+                        buffer[k++]= inputStr[j];
+                }
+                buffer[k]=0;
+
+                this->imageryHeight = (int) atof(buffer);
+            }
+
 	        if (strcmp(identifier,"NORMAL_INTERVAL") == 0) {
 	            char buffer[16];
 	            k=0;
@@ -238,6 +262,7 @@ char *MCA_Config::getConfigFileName() {
     return configFileName;
 }
 
+
 float MCA_Config::getSetSize() {
   return this->setSize;
 }
@@ -246,6 +271,17 @@ float MCA_Config::getSetSize() {
 float MCA_Config::getElapsedTime() {
   return this->elapsedTime;
 }
+
+
+int MCA_Config::getImageryWidth() {
+    return this->imageryWidth;
+}
+
+
+int MCA_Config::getImageryHeight() {
+    return this->imageryHeight;
+}
+
 
 /*
 float MCA_Config::getXScale() {
