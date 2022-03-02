@@ -83,6 +83,47 @@ cv::Mat ImageAnalysis::MaskImage(cv::Mat source, cv::Mat mask, float maskThresho
     return maskedImage;
 } // maskedImage
 
+/**
+ * @function GrayThermalToBGR
+ * @date 24-February-2022
+ * @param source 16 bit 1 channel image to be converted
+ * @return converted 8 bit 3 channel BGR image
+ */
+cv::Mat ImageAnalysis::GrayThermalToBGR(cv::Mat thermalGray){
+    int x, y;
+    unsigned char pixel8;
+    float temp;
+    int minPixel=65535, maxPixel = 0;
+
+    cv::Mat thermalBGR(thermalGray.rows, thermalGray.cols, CV_8UC3,cv::Scalar(100,35,200));
+
+    for (y = 0; y< thermalGray.rows; y++) {
+        for (x = 0; x < thermalGray.cols; x++) {
+            if (minPixel > thermalGray.at<u_short>(y, x))
+                minPixel = thermalGray.at<u_short>(y, x);
+            if (maxPixel < thermalGray.at<u_short>(y, x))
+                maxPixel = thermalGray.at<u_short>(y, x);
+        } // x
+    } // y
+
+    float range = maxPixel - minPixel;
+    float scale = 256.0 / range;
+
+    for (y = 0; y<thermalGray.rows; y++) {
+        for (x = 0; x<thermalGray.cols; x++) {
+            temp = thermalGray.at<u_short>(y, x);
+            temp = (temp - minPixel) * scale;
+
+            if (temp >= 256)
+                temp = 255;
+            pixel8 = temp;
+
+            thermalBGR.at<cv::Vec3b>(y, x) = cv::Vec3b(pixel8,pixel8,pixel8);
+        } // x
+    } // y
+
+    return thermalBGR;
+} // GrayThermalToBGR
 
 /*
  * function: imageHistogram

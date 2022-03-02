@@ -43,6 +43,7 @@ public:
     ImageAnalysis(int width, int height);
     void setImageWidth(int width);
     void setImageHeight(int height);
+    cv::Mat GrayThermalToBGR(cv::Mat thermalGray);
     cv::Mat CalculateNDVI(cv::Mat image);
     cv::Mat MaskImage(cv::Mat image, int maskThreshold);
     cv::Mat MaskImage(cv::Mat source, cv::Mat mask, float maskThreshold);

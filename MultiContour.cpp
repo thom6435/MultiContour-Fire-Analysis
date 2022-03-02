@@ -1,6 +1,6 @@
 /*
  *  program: MultiContour
- * modified: 10-February-2021
+ * modified: 25-February-2022
  *   author: Ed Thomas
  *  purpose: Experiment to examine potential of using OpenCV multi-contour image
  *           processing methods to analyze fire imagery.
@@ -179,15 +179,20 @@ int main (int argc, char *argv[]) {
                 puts("Could not open or find the aerial imagery!\n");
                 return -1;
             }
+
+            // Scale imagery if required
+            if (aerial[i].cols != config.getImageryWidth() ||
+                aerial[i].rows != config.getImageryHeight()) {
+                cv::resize(aerial[i],aerial[i],
+                           cv::Size(config.getImageryWidth(), config.getImageryHeight()),
+                           cv::INTER_LANCZOS4);
+            } // see if imagery needs to scaled.
+
         }
         Imagery_X_Res = aerial[0].cols;
         Imagery_Y_Res = aerial[0].rows;
         ia.setImageWidth(Imagery_X_Res);
         ia.setImageHeight(Imagery_Y_Res);
-
-
-
-
 
 
         /*
@@ -220,10 +225,6 @@ int main (int argc, char *argv[]) {
             cv::findContours(radiometerAOIThreshold, radiometerAOIContour, cv::RETR_LIST, cv::CHAIN_APPROX_NONE );
 
             printf("Number of contours in radiometerAOIContour: %d\n", radiometerAOIContour.size());
-
-            //cv::drawContours(aerial[0]/*radiometerAOIThreshold*/, radiometerAOIContour, 0, RED2);
-            //cv::imshow("radiometer AOI Contour", aerial[0]/*radiometerAOIThreshold*/);
-            //cv::waitKey();
         } // radiometer AOI initialized?
 
         if (!thermalAOI.isInitialized())
@@ -233,7 +234,16 @@ int main (int argc, char *argv[]) {
          * Load the thermal imagery set.
          */
         for (i=0; i<MAX_AVG_SET; i++) {
-            infraRed[i] = cv::imread(infraRedFilePath[i], 1);
+            cv::Mat irTemp;
+            irTemp = cv::imread(infraRedFilePath[i], 1);
+            // Note on Kremcam 2.0, the IR imagery needs rotated -90 degrees to align with the aerial imagery.
+            cv::rotate(irTemp, infraRed[i], cv::ROTATE_90_CLOCKWISE);
+
+            // resize the IR imagery to be the same size as the aerial.
+            cv::resize(infraRed[i], infraRed[i],
+                       cv::Size(config.getImageryWidth(), config.getImageryHeight()),
+                       cv::INTER_LANCZOS4);
+
             if (id == 0 && i == 0) {
                 medianThermalBackground = ia.getMedianBackground(infraRed[0], thermalAOI);
                 meanThermalBackground = ia.getMeanBackground(infraRed[0], thermalAOI);
@@ -250,8 +260,6 @@ int main (int argc, char *argv[]) {
             float meanThermal = ia.getMeanBackground(infraRed[i], thermalAOI);
             int minThermal = ia.getMinBackground(infraRed[i], thermalAOI);
             int maxThermal = ia.getMaxBackground(infraRed[i], thermalAOI);
-
-            //printf ("::: F:%d I:%d  %f  %f  %d  %d\n", id, i, medianThermal, meanThermal, minThermal, maxThermal);
         } // i
 
 
@@ -260,18 +268,25 @@ int main (int argc, char *argv[]) {
 
         contourProgression[id%2] = aerial[0].clone();
 	    cv::Mat aerialImage = aerial[0].clone();
-	    cv::Mat infraRedImage = infraRed[0].clone();
+	    cv::Mat infraRedImageKelvin = infraRed[0].clone();
 
-	    //cv::add(aerial[0], aerial[1], aerialImage);
-	    //cv::add(infraRed[0], infraRed[1], infraRedImage);
-
-	    //float gamma = 1.0 / MAX_AVG_SET;
-	
 	    cv::addWeighted(aerial[0], 0.5, aerial[1], 0.5, 0.0, aerialImage, aerial[0].depth());
 	    cv::addWeighted(aerial[2], 0.33,  aerialImage, 0.67, 0.0, aerialImage, aerial[2].depth());
 
-	    cv::addWeighted(infraRed[0], 0.5, infraRed[1], 0.5, 0.0, infraRedImage, infraRed[0].depth());
-	    cv::addWeighted(infraRed[2], 0.33, infraRedImage, 0.67, 0.0, infraRedImage, infraRed[2].depth());
+	    cv::addWeighted(infraRed[0], 0.5, infraRed[1], 0.5, 0.0, infraRedImageKelvin, infraRed[0].depth());
+	    cv::addWeighted(infraRed[2], 0.33, infraRedImageKelvin, 0.67, 0.0, infraRedImageKelvin, infraRed[2].depth());
+
+        cv::Mat infraRedImage = ia.GrayThermalToBGR(infraRedImageKelvin);
+
+        //cv::imshow("infraRedImage", infraRedImage);
+        //cv::imshow("aerialImage", aerialImage);
+
+
+        /***
+         * Note, the infraRedImageKelvin is an averaged 2 byte single channel image that preserves the
+         * original Kelvin temperatures. Divide the pixel value to obtain temps in Kelvin with 2 decimal
+         * digit precision.
+         ***/
 
 	    /*
 	    for (i=2; i<MAX_AVG_SET; i++) { // was i=2 and above code enabled
@@ -355,7 +370,7 @@ int main (int argc, char *argv[]) {
         tempMedian *= .50;
         tripleRed = ia.MaskImage(tripleRed, infraRedImage, tempMedian);
 
-        tripleRed = ia.setContrastBalance((double)1.7, (int) -20, tripleRed);
+        tripleRed = ia.setContrastBalance((double)1.7, (int) 20, tripleRed);
 
         //cv::imshow("tripleRed Image, processed", tripleRed);
 
@@ -373,6 +388,7 @@ int main (int argc, char *argv[]) {
         }
         //cv::namedWindow("tripleRed Image, processed", cv::WINDOW_AUTOSIZE );
         //cv::imshow("tripleRed Image, processed", middleAerial);
+        //cv::waitKey();
 
         cv::Mat infraRedBGR = redImage.clone();
         split(infraRedImage, IRchannel);

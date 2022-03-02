@@ -1,4 +1,4 @@
 ls $1 | grep rgb | grep -v avi >listA
-ls $1 | grep thermal | grep -v avi >listB
-cat BatchHeader > Config-$1.MCA
+ls $1 | grep lw | grep -v avi >listB
+cat ~/Fire-Analysis/Config/BatchHeader > Config-$1.MCA
 paste listA listB >> Config-$1.MCA

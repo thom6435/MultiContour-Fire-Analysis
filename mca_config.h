@@ -12,8 +12,8 @@ class MCA_Config
         char  analysisName[FILE_PATH_SIZE];
         char  inputDirectory[FILE_PATH_SIZE];
         char  outputDirectory[FILE_PATH_SIZE];
-        int   imageryWidth;                              // targeted scaled pixel width of thermal and rgb imagery
-        int   imageryHeight;                             // targeted scaled pixel height of thermal and rgb imagery
+        int   imageryWidth  = 760;                       // targeted scaled pixel width of thermal and rgb imagery
+        int   imageryHeight = 1024;                      // targeted scaled pixel height of thermal and rgb imagery
         int   fileCount;                                 // total number of images in the series
         float XScale;                                    // coverage width of imagery in meters
         float YScale;                                    // coverage height of imagery in meters

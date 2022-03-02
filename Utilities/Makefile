@@ -16,4 +16,7 @@ thermalImageScale: thermalImageScale.o
 	g++ -o thermalImageScale thermalImageScale.o -lopencv_highgui -lopencv_core -lopencv_imgcodecs -lopencv_imgproc
 thermalImageScale.o: thermalImageScale.cpp
 	g++ -Wall -c thermalImageScale.cpp
-
+ThermalImageScaleRotate: ThermalImageScaleRotate.o
+	g++ -o ThermalImageScaleRotate ThermalImageScaleRotate.o -lopencv_highgui -lopencv_core -lopencv_imgcodecs -lopencv_imgproc
+ThermalImageScaleRotate.o: ThermalImageScaleRotate.cpp
+	g++ -Wall -c ThermalImageScaleRotate.cpp

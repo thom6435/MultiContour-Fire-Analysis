@@ -311,6 +311,8 @@ void MCA_Config::printConfig() {
     printf("                  Output Directory: %s\n", this->outputDirectory);
     //printf("              Image Scale Width: %6.1f\n", this->XScale);
     //printf("             Image Scale Height: %6.1f\n", this->YScale);
+    printf("     Target Imagery Width (pixels): %4d\n", this->imageryWidth);
+    printf("    Target Imagery Height (pixels): %4d\n", this->imageryHeight);
     printf(" Horizontal Field of View (meters): %6.1f\n", this->XScale);
     printf("       Elapsed time between Images: %6.1f\n", this->elapsedTime);
     printf("    Contour Normal Stepping Factor:   %2d\n", this->normalInterval);
